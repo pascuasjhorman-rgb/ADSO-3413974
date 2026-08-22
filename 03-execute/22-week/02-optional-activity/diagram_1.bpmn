@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.50.0">
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="Participant_Coordinador" name="Usuario / Coordinador Académico" processRef="Process_Coordinador" />
+    <bpmn:participant id="Participant_Sistema" name="Sistema (Autenticación y Backend)" processRef="Process_Sistema" />
+    
+    <!-- Flujos de Mensaje (Líneas discontinuas entre Piscinas) -->
+    <bpmn:messageFlow id="MessageFlow_EnviarCredenciales" name="Enviar Credenciales" sourceRef="Task_Ingresar" targetRef="Task_Validar" />
+    <bpmn:messageFlow id="MessageFlow_LoginOK" name="Sí (Sesión Válida)" sourceRef="Gateway_Validacion" targetRef="Task_Dashboard" />
+  </bpmn:collaboration>
+
+  <!-- Proceso 1: Coordinador -->
+  <bpmn:process id="Process_Coordinador" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Acceso a la Plataforma">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_Ingresar" name="Ingresar Correo y Contraseña">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_Dashboard" name="Cargar Dashboard de Inicio">
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_Gestionar" name="Gestionar Horarios y Conflictos">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_1" name="Gestión Finalizada">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_Ingresar" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_Dashboard" targetRef="Task_Gestionar" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Task_Gestionar" targetRef="EndEvent_1" />
+  </bpmn:process>
+
+  <!-- Proceso 2: Sistema -->
+  <bpmn:process id="Process_Sistema" isExecutable="true">
+    <bpmn:serviceTask id="Task_Validar" name="Validar Credenciales y Rol">
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_Validacion" name="¿Credenciales Válidas?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_No</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_Validar" targetRef="Gateway_Validacion" />
+    <bpmn:sequenceFlow id="Flow_No" name="No" sourceRef="Gateway_Validacion" targetRef="Task_Validar" />
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      
+      <!-- Pool Coordinador -->
+      <bpmndi:BPMNShape id="Participant_Coordinador_di" bpmnElement="Participant_Coordinador" isHorizontal="true">
+        <dc:Bounds x="130" y="80" width="750" height="170" />
+      </bpmndi:BPMNShape>
+      
+      <!-- Pool Sistema -->
+      <bpmndi:BPMNShape id="Participant_Sistema_di" bpmnElement="Participant_Sistema" isHorizontal="true">
+        <dc:Bounds x="130" y="250" width="750" height="170" />
+      </bpmndi:BPMNShape>
+
+      <!-- Elementos Coordinador -->
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="147" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Ingresar_di" bpmnElement="Task_Ingresar">
+        <dc:Bounds x="255" y="125" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Dashboard_di" bpmnElement="Task_Dashboard">
+        <dc:Bounds x="490" y="125" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Gestionar_di" bpmnElement="Task_Gestionar">
+        <dc:Bounds x="635" y="125" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="777" y="147" width="36" height="36" />
+      </bpmndi:BPMNShape>
+
+      <!-- Elementos Sistema -->
+      <bpmndi:BPMNShape id="Task_Validar_di" bpmnElement="Task_Validar">
+        <dc:Bounds x="255" y="295" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Validacion_di" bpmnElement="Gateway_Validacion" isMarkerVisible="true">
+        <dc:Bounds x="395" y="310" width="50" height="50" />
+      </bpmndi:BPMNShape>
+
+      <!-- Sequence Flows Internos -->
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="218" y="165" />
+        <di:waypoint x="255" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="355" y="335" />
+        <di:waypoint x="395" y="335" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_No_di" bpmnElement="Flow_No">
+        <di:waypoint x="420" y="360" />
+        <di:waypoint x="420" y="395" />
+        <di:waypoint x="305" y="395" />
+        <di:waypoint x="305" y="375" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="355" y="377" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="590" y="165" />
+        <di:waypoint x="635" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="735" y="165" />
+        <di:waypoint x="777" y="165" />
+      </bpmndi:BPMNEdge>
+
+      <!-- Message Flows (Líneas punteadas cruzando entre piscinas) -->
+      <bpmndi:BPMNEdge id="MessageFlow_EnviarCredenciales_di" bpmnElement="MessageFlow_EnviarCredenciales">
+        <di:waypoint x="305" y="205" />
+        <di:waypoint x="305" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MessageFlow_LoginOK_di" bpmnElement="MessageFlow_LoginOK">
+        <di:waypoint x="420" y="310" />
+        <di:waypoint x="420" y="165" />
+        <di:waypoint x="490" y="165" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="430" y="235" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

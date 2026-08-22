@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Director" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.50.1">
+  <bpmn:collaboration id="Collaboration_Director">
+    <bpmn:participant id="Participant_Director" name="Usuario / Director de Centro" processRef="Process_Director" />
+    <bpmn:participant id="Participant_Sistema" name="Sistema (Autenticación y Backend)" processRef="Process_Sistema" />
+    <bpmn:messageFlow id="MessageFlow_EnviarCredenciales" name="Enviar Credenciales" sourceRef="Task_Ingresar" targetRef="Task_Validar" />
+    <bpmn:messageFlow id="MessageFlow_LoginOK" name="Sí" sourceRef="Gateway_Validacion" targetRef="Task_CargarPanel" />
+    <bpmn:messageFlow id="MessageFlow_LoginError" name="No" sourceRef="Gateway_Validacion" targetRef="Task_Ingresar" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_Director" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Acceso a la Plataforma">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_Ingresar" name="Ingresar Correo y Contraseña">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_CargarPanel" name="Cargar Panel Principal (Director)">
+      <bpmn:outgoing>Flow_Menu</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_Menu" name="Seleccionar Opción Menú">
+      <bpmn:incoming>Flow_Menu</bpmn:incoming>
+      <bpmn:outgoing>Flow_IrIndicadores</bpmn:outgoing>
+      <bpmn:outgoing>Flow_IrUsuarios</bpmn:outgoing>
+      <bpmn:outgoing>Flow_IrDatosRef</bpmn:outgoing>
+      <bpmn:outgoing>Flow_IrParametrizacion</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_ConsultarIndicadores" name="Consultar Indicadores (KPIs y Riesgo)">
+      <bpmn:incoming>Flow_IrIndicadores</bpmn:incoming>
+      <bpmn:outgoing>Flow_Fin1</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_AdministrarUsuarios" name="Administrar Usuarios del Centro">
+      <bpmn:incoming>Flow_IrUsuarios</bpmn:incoming>
+      <bpmn:outgoing>Flow_Fin2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_ConsultarDatosRef" name="Consultar Datos de Referencia (Sedes/Catálogos)">
+      <bpmn:incoming>Flow_IrDatosRef</bpmn:incoming>
+      <bpmn:outgoing>Flow_Fin3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_ConsultarParametrizacion" name="Consultar Parametrización">
+      <bpmn:incoming>Flow_IrParametrizacion</bpmn:incoming>
+      <bpmn:outgoing>Flow_Fin4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_1" name="Gestión Finalizada">
+      <bpmn:incoming>Flow_Fin1</bpmn:incoming>
+      <bpmn:incoming>Flow_Fin2</bpmn:incoming>
+      <bpmn:incoming>Flow_Fin3</bpmn:incoming>
+      <bpmn:incoming>Flow_Fin4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_Ingresar" />
+    <bpmn:sequenceFlow id="Flow_Menu" sourceRef="Task_CargarPanel" targetRef="Gateway_Menu" />
+    <bpmn:sequenceFlow id="Flow_IrIndicadores" name="Indicadores" sourceRef="Gateway_Menu" targetRef="Task_ConsultarIndicadores" />
+    <bpmn:sequenceFlow id="Flow_IrUsuarios" name="Usuarios" sourceRef="Gateway_Menu" targetRef="Task_AdministrarUsuarios" />
+    <bpmn:sequenceFlow id="Flow_IrDatosRef" name="Datos de referencia" sourceRef="Gateway_Menu" targetRef="Task_ConsultarDatosRef" />
+    <bpmn:sequenceFlow id="Flow_IrParametrizacion" name="Parametrización" sourceRef="Gateway_Menu" targetRef="Task_ConsultarParametrizacion" />
+    <bpmn:sequenceFlow id="Flow_Fin1" sourceRef="Task_ConsultarIndicadores" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_Fin2" sourceRef="Task_AdministrarUsuarios" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_Fin3" sourceRef="Task_ConsultarDatosRef" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_Fin4" sourceRef="Task_ConsultarParametrizacion" targetRef="EndEvent_1" />
+  </bpmn:process>
+  <bpmn:process id="Process_Sistema" isExecutable="true">
+    <bpmn:serviceTask id="Task_Validar" name="Validar Credenciales y Rol de Director">
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_Validacion" name="¿Credenciales Válidas?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_Validar" targetRef="Gateway_Validacion" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_Director">
+      <bpmndi:BPMNShape id="Participant_Director_di" bpmnElement="Participant_Director" isHorizontal="true">
+        <dc:Bounds x="130" y="80" width="1020" height="300" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Ingresar_di" bpmnElement="Task_Ingresar">
+        <dc:Bounds x="250" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CargarPanel_di" bpmnElement="Task_CargarPanel">
+        <dc:Bounds x="460" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Menu_di" bpmnElement="Gateway_Menu" isMarkerVisible="true">
+        <dc:Bounds x="595" y="195" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="587" y="266" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ConsultarIndicadores_di" bpmnElement="Task_ConsultarIndicadores">
+        <dc:Bounds x="720" y="90" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_AdministrarUsuarios_di" bpmnElement="Task_AdministrarUsuarios">
+        <dc:Bounds x="720" y="160" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ConsultarDatosRef_di" bpmnElement="Task_ConsultarDatosRef">
+        <dc:Bounds x="720" y="230" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ConsultarParametrizacion_di" bpmnElement="Task_ConsultarParametrizacion">
+        <dc:Bounds x="720" y="300" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="982" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="218" y="220" />
+        <di:waypoint x="250" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Menu_di" bpmnElement="Flow_Menu">
+        <di:waypoint x="560" y="220" />
+        <di:waypoint x="595" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_IrIndicadores_di" bpmnElement="Flow_IrIndicadores">
+        <di:waypoint x="620" y="195" />
+        <di:waypoint x="620" y="120" />
+        <di:waypoint x="720" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_IrUsuarios_di" bpmnElement="Flow_IrUsuarios">
+        <di:waypoint x="620" y="200" />
+        <di:waypoint x="620" y="190" />
+        <di:waypoint x="720" y="190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="598" y="173" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_IrDatosRef_di" bpmnElement="Flow_IrDatosRef">
+        <di:waypoint x="620" y="240" />
+        <di:waypoint x="620" y="260" />
+        <di:waypoint x="720" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_IrParametrizacion_di" bpmnElement="Flow_IrParametrizacion">
+        <di:waypoint x="620" y="245" />
+        <di:waypoint x="620" y="330" />
+        <di:waypoint x="720" y="330" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="580" y="293" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Fin1_di" bpmnElement="Flow_Fin1">
+        <di:waypoint x="840" y="120" />
+        <di:waypoint x="1000" y="120" />
+        <di:waypoint x="1000" y="202" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Fin2_di" bpmnElement="Flow_Fin2">
+        <di:waypoint x="840" y="190" />
+        <di:waypoint x="982" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Fin3_di" bpmnElement="Flow_Fin3">
+        <di:waypoint x="840" y="260" />
+        <di:waypoint x="982" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Fin4_di" bpmnElement="Flow_Fin4">
+        <di:waypoint x="840" y="330" />
+        <di:waypoint x="1000" y="330" />
+        <di:waypoint x="1000" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_Sistema_di" bpmnElement="Participant_Sistema" isHorizontal="true">
+        <dc:Bounds x="130" y="380" width="1020" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Validar_di" bpmnElement="Task_Validar">
+        <dc:Bounds x="250" y="420" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Validacion_di" bpmnElement="Gateway_Validacion" isMarkerVisible="true">
+        <dc:Bounds x="385" y="435" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="350" y="460" />
+        <di:waypoint x="385" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MessageFlow_EnviarCredenciales_di" bpmnElement="MessageFlow_EnviarCredenciales">
+        <di:waypoint x="300" y="260" />
+        <di:waypoint x="300" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MessageFlow_LoginOK_di" bpmnElement="MessageFlow_LoginOK">
+        <di:waypoint x="410" y="435" />
+        <di:waypoint x="410" y="220" />
+        <di:waypoint x="460" y="220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="420" y="330" width="11" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MessageFlow_LoginError_di" bpmnElement="MessageFlow_LoginError">
+        <di:waypoint x="410" y="485" />
+        <di:waypoint x="410" y="515" />
+        <di:waypoint x="220" y="515" />
+        <di:waypoint x="220" y="230" />
+        <di:waypoint x="250" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="310" y="497" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
