@@ -1,0 +1,189 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1460" height="980" viewBox="0 0 1460 980" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="inh" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto">
+      <polygon points="2,2 12,7 2,12" fill="#ffffff" stroke="#1e293b" stroke-width="1.8"/>
+    </marker>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M1,1 L9,5 L1,9" fill="none" stroke="#1e293b" stroke-width="1.6"/>
+    </marker>
+    <marker id="comp" markerWidth="14" markerHeight="10" refX="0" refY="5" orient="auto">
+      <polygon points="0,5 7,1 14,5 7,9" fill="#1e293b"/>
+    </marker>
+    <marker id="agg" markerWidth="14" markerHeight="10" refX="0" refY="5" orient="auto">
+      <polygon points="0,5 7,1 14,5 7,9" fill="#ffffff" stroke="#1e293b" stroke-width="1.5"/>
+    </marker>
+  </defs>
+  <rect width="1460" height="980" fill="#ffffff"/>
+  <text x="730" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Diagrama de Clases de Diseño UML · Patrones Strategy y Facade · SAB</text>
+
+  <!-- Usuario -->
+  <rect x="40" y="65" width="245" height="140" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <line x1="40" y1="93" x2="285" y2="93" stroke="#1d4ed8"/><line x1="40" y1="168" x2="285" y2="168" stroke="#1d4ed8"/>
+  <text x="162" y="84" text-anchor="middle" font-size="13" font-weight="700">Usuario</text>
+  <text x="48" y="110" font-size="10.5">-idUsuario: int</text>
+  <text x="48" y="124" font-size="10.5">-documento: str</text>
+  <text x="48" y="138" font-size="10.5">-claveHash: str</text>
+  <text x="48" y="152" font-size="10.5">-rol: str | -activo: bool</text>
+  <text x="48" y="184" font-size="10.5">+autenticar(clave: str): bool</text>
+  <text x="48" y="198" font-size="10.5">+desactivar(): void</text>
+
+  <!-- Aprendiz -->
+  <rect x="30" y="255" width="240" height="115" fill="#f0fdf4" stroke="#0f766e" stroke-width="1.8"/>
+  <line x1="30" y1="283" x2="270" y2="283" stroke="#0f766e"/><line x1="30" y1="326" x2="270" y2="326" stroke="#0f766e"/>
+  <text x="150" y="274" text-anchor="middle" font-size="13" font-weight="700">Aprendiz</text>
+  <text x="38" y="300" font-size="10.5">-codigoMatricula: str</text>
+  <text x="38" y="314" font-size="10.5">-estadoAcademico: str</text>
+  <text x="38" y="343" font-size="10.5">+solicitarAsistencia(idSes: int): void</text>
+  <text x="38" y="358" font-size="10.5">+radicarExcusa(idSes: int, m: str): Excusa</text>
+
+  <!-- Instructor -->
+  <rect x="295" y="255" width="250" height="115" fill="#f0fdf4" stroke="#0f766e" stroke-width="1.8"/>
+  <line x1="295" y1="283" x2="545" y2="283" stroke="#0f766e"/><line x1="295" y1="326" x2="545" y2="326" stroke="#0f766e"/>
+  <text x="420" y="274" text-anchor="middle" font-size="13" font-weight="700">Instructor</text>
+  <text x="303" y="300" font-size="10.5">-especialidad: str</text>
+  <text x="303" y="314" font-size="10.5">-esLider: bool</text>
+  <text x="303" y="343" font-size="10.5">+abrirSesion(idFicha: int): SesionFormacion</text>
+  <text x="303" y="358" font-size="10.5">+registrarManual(idS, idA, mot): Registro</text>
+
+  <!-- Ficha -->
+  <rect x="305" y="65" width="240" height="130" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <line x1="305" y1="93" x2="545" y2="93" stroke="#1d4ed8"/><line x1="305" y1="154" x2="545" y2="154" stroke="#1d4ed8"/>
+  <text x="425" y="84" text-anchor="middle" font-size="13" font-weight="700">Ficha</text>
+  <text x="313" y="110" font-size="10.5">-idFicha: int</text>
+  <text x="313" y="124" font-size="10.5">-codigoFicha: str</text>
+  <text x="313" y="138" font-size="10.5">-programa: str | -estado: str</text>
+  <text x="313" y="170" font-size="10.5">+asignarLider(inst: Instructor): void</text>
+  <text x="313" y="185" font-size="10.5">+vincularAprendiz(apr: Aprendiz): void</text>
+
+  <!-- SesionFormacion -->
+  <rect x="615" y="65" width="250" height="130" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <line x1="615" y1="93" x2="865" y2="93" stroke="#1d4ed8"/><line x1="615" y1="154" x2="865" y2="154" stroke="#1d4ed8"/>
+  <text x="740" y="84" text-anchor="middle" font-size="13" font-weight="700">SesionFormacion</text>
+  <text x="623" y="110" font-size="10.5">-idSesion: int</text>
+  <text x="623" y="124" font-size="10.5">-fechaApertura: datetime</text>
+  <text x="623" y="138" font-size="10.5">-fechaCierre: datetime | -estado: str</text>
+  <text x="623" y="170" font-size="10.5">+rotarQR(): TokenQR</text>
+  <text x="623" y="185" font-size="10.5">+cerrar(): void</text>
+
+  <!-- TokenQR -->
+  <rect x="945" y="65" width="225" height="130" fill="#dcfce7" stroke="#0f766e" stroke-width="1.8"/>
+  <line x1="945" y1="93" x2="1170" y2="93" stroke="#0f766e"/><line x1="945" y1="162" x2="1170" y2="162" stroke="#0f766e"/>
+  <text x="1057" y="84" text-anchor="middle" font-size="13" font-weight="700">TokenQR</text>
+  <text x="953" y="110" font-size="10.5">-idToken: int</text>
+  <text x="953" y="124" font-size="10.5">-codigoFirma: str</text>
+  <text x="953" y="138" font-size="10.5">-emitidoEn: datetime</text>
+  <text x="953" y="152" font-size="10.5">-expiraEn: datetime</text>
+  <text x="953" y="180" font-size="10.5">+esVigente(ahora: datetime): bool</text>
+
+  <!-- RegistroAsistencia -->
+  <rect x="30" y="445" width="245" height="125" fill="#dcfce7" stroke="#0f766e" stroke-width="1.8"/>
+  <line x1="30" y1="473" x2="275" y2="473" stroke="#0f766e"/><line x1="30" y1="536" x2="275" y2="536" stroke="#0f766e"/>
+  <text x="152" y="464" text-anchor="middle" font-size="13" font-weight="700">RegistroAsistencia</text>
+  <text x="38" y="490" font-size="10.5">-idAsistencia: int</text>
+  <text x="38" y="504" font-size="10.5">-estado: str | -origen: str</text>
+  <text x="38" y="518" font-size="10.5">-marcaTiempo: datetime</text>
+  <text x="38" y="554" font-size="10.5">+marcar(origen: str, mot: str): void</text>
+
+  <!-- Incidencia -->
+  <rect x="310" y="445" width="240" height="125" fill="#fff1f2" stroke="#9f1239" stroke-width="1.8"/>
+  <line x1="310" y1="473" x2="550" y2="473" stroke="#9f1239"/><line x1="310" y1="536" x2="550" y2="536" stroke="#9f1239"/>
+  <text x="430" y="464" text-anchor="middle" font-size="13" font-weight="700">Incidencia</text>
+  <text x="318" y="490" font-size="10.5">-idIncidencia: int</text>
+  <text x="318" y="504" font-size="10.5">-tipo: str | -intentosFallidos: int</text>
+  <text x="318" y="518" font-size="10.5">-estado: str</text>
+  <text x="318" y="554" font-size="10.5">+resolver(idInst: int, dec: str): void</text>
+
+  <!-- Excusa -->
+  <rect x="30" y="620" width="245" height="125" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <line x1="30" y1="648" x2="275" y2="648" stroke="#1d4ed8"/><line x1="30" y1="712" x2="275" y2="712" stroke="#1d4ed8"/>
+  <text x="152" y="639" text-anchor="middle" font-size="13" font-weight="700">Excusa</text>
+  <text x="38" y="665" font-size="10.5">-idExcusa: int</text>
+  <text x="38" y="679" font-size="10.5">-tipo: str | -rutaSoporte: str</text>
+  <text x="38" y="693" font-size="10.5">-estado: str</text>
+  <text x="38" y="730" font-size="10.5">+confirmarRecepcion(idInst: int): void</text>
+
+  <!-- Patron Facade: FachadaAsistenciaSAB -->
+  <rect x="615" y="275" width="320" height="125" fill="#fef9c3" stroke="#a16207" stroke-width="2"/>
+  <line x1="615" y1="316" x2="935" y2="316" stroke="#a16207"/><line x1="615" y1="354" x2="935" y2="354" stroke="#a16207"/>
+  <text x="775" y="294" text-anchor="middle" font-size="10.5" fill="#92400e">&lt;&lt;Facade&gt;&gt;</text>
+  <text x="775" y="310" text-anchor="middle" font-size="13" font-weight="700">FachadaAsistenciaSAB</text>
+  <text x="623" y="332" font-size="10.5">-biometria: ProveedorBiometrico</text>
+  <text x="623" y="346" font-size="10.5">-exportador: ExportadorReporte</text>
+  <text x="623" y="372" font-size="10.5">+marcarOrdinaria(idA, idS, m, qr): RegistroAsistencia</text>
+  <text x="623" y="388" font-size="10.5">+cerrarYExportar(idS: int, fmt: str): bytes</text>
+
+  <!-- Patron Strategy 1: ProveedorBiometrico -->
+  <rect x="1030" y="265" width="380" height="110" fill="#fff1f2" stroke="#9f1239" stroke-width="2"/>
+  <line x1="1030" y1="306" x2="1410" y2="306" stroke="#9f1239"/>
+  <text x="1220" y="283" text-anchor="middle" font-size="10.5" fill="#9f1239">&lt;&lt;interface · Strategy&gt;&gt;</text>
+  <text x="1220" y="299" text-anchor="middle" font-size="13" font-weight="700">ProveedorBiometrico</text>
+  <text x="1040" y="324" font-size="10.5">+enrolar(muestra: bytes): str</text>
+  <text x="1040" y="340" font-size="10.5">+cotejar(muestra: bytes, ref: str): bool</text>
+  <text x="1040" y="356" font-size="10.5">+suprimir(ref: str): bool</text>
+
+  <rect x="975" y="445" width="210" height="105" fill="#ffffff" stroke="#9f1239" stroke-width="1.6"/>
+  <line x1="975" y1="473" x2="1185" y2="473" stroke="#9f1239"/><line x1="975" y1="498" x2="1185" y2="498" stroke="#9f1239"/>
+  <text x="1080" y="464" text-anchor="middle" font-size="12" font-weight="700">ProveedorSDKUSB</text>
+  <text x="983" y="490" font-size="10.5">-puertoDispositivo: str</text>
+  <text x="983" y="514" font-size="10.5">+enrolar() / +cotejar()</text>
+  <text x="983" y="530" font-size="10.5">+suprimir(ref: str): bool</text>
+
+  <rect x="1205" y="445" width="225" height="105" fill="#ffffff" stroke="#9f1239" stroke-width="1.6"/>
+  <line x1="1205" y1="473" x2="1430" y2="473" stroke="#9f1239"/><line x1="1205" y1="498" x2="1430" y2="498" stroke="#9f1239"/>
+  <text x="1317" y="464" text-anchor="middle" font-size="12" font-weight="700">ProveedorBiometricoSimulado</text>
+  <text x="1213" y="490" font-size="10.5">-modoPrueba: bool</text>
+  <text x="1213" y="514" font-size="10.5">+enrolar() / +cotejar()</text>
+  <text x="1213" y="530" font-size="10.5">+suprimir(ref: str): bool</text>
+
+  <!-- Patron Strategy 2: ExportadorReporte -->
+  <rect x="615" y="520" width="320" height="86" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+  <line x1="615" y1="560" x2="935" y2="560" stroke="#1d4ed8"/>
+  <text x="775" y="538" text-anchor="middle" font-size="10.5" fill="#1d4ed8">&lt;&lt;interface · Strategy&gt;&gt;</text>
+  <text x="775" y="554" text-anchor="middle" font-size="13" font-weight="700">ExportadorReporte</text>
+  <text x="625" y="582" font-size="10.5">+generar(datos: list, idSesion: int): bytes</text>
+
+  <rect x="570" y="670" width="190" height="72" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6"/>
+  <line x1="570" y1="698" x2="760" y2="698" stroke="#1d4ed8"/>
+  <text x="665" y="689" text-anchor="middle" font-size="12" font-weight="700">ExportadorPDF</text>
+  <text x="580" y="720" font-size="10.5">+generar(datos, idS): bytes</text>
+
+  <rect x="785" y="670" width="190" height="72" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6"/>
+  <line x1="785" y1="698" x2="975" y2="698" stroke="#1d4ed8"/>
+  <text x="880" y="689" text-anchor="middle" font-size="12" font-weight="700">ExportadorXLSX</text>
+  <text x="795" y="720" font-size="10.5">+generar(datos, idS): bytes</text>
+
+  <!-- Relaciones -->
+  <g stroke="#1e293b" stroke-width="1.5" fill="none">
+    <!-- Herencia Aprendiz / Instructor -> Usuario -->
+    <polyline points="150,255 150,226 162,226 162,207" marker-end="url(#inh)"/>
+    <polyline points="420,255 420,226 162,226"/>
+    <!-- Agregacion Ficha o-> Aprendiz -->
+    <polyline points="305,160 288,160 288,312 272,312" marker-start="url(#agg)"/>
+    <!-- Ficha -> SesionFormacion -->
+    <line x1="545" y1="120" x2="615" y2="120" marker-end="url(#arr)"/>
+    <!-- Composicion SesionFormacion *-> TokenQR -->
+    <line x1="865" y1="120" x2="945" y2="120" marker-start="url(#comp)" marker-end="url(#arr)"/>
+    <!-- Aprendiz -> RegistroAsistencia & Excusa -->
+    <line x1="150" y1="370" x2="150" y2="445" marker-end="url(#arr)"/>
+    <polyline points="30,312 14,312 14,680 30,680" marker-end="url(#arr)"/>
+    <!-- Fachada relaciones -->
+    <line x1="935" y1="320" x2="1030" y2="320" marker-end="url(#arr)"/>
+    <line x1="775" y1="400" x2="775" y2="520" marker-end="url(#arr)"/>
+    <line x1="740" y1="275" x2="740" y2="195" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+    <polyline points="615,382 575,382 575,412 430,412 430,445" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+    <polyline points="575,412 200,412 200,445" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+    <!-- Implementaciones Strategy -->
+    <polyline points="1080,445 1080,412 1220,412 1220,377" stroke-dasharray="5,3" marker-end="url(#inh)"/>
+    <polyline points="1317,445 1317,412 1220,412" stroke-dasharray="5,3"/>
+    <polyline points="665,670 665,638 775,638 775,608" stroke-dasharray="5,3" marker-end="url(#inh)"/>
+    <polyline points="880,670 880,638 775,638" stroke-dasharray="5,3"/>
+  </g>
+  <!-- Multiplicidades -->
+  <g font-size="10.5" font-weight="700" fill="#0f172a">
+    <text x="292" y="150">1</text><text x="275" y="302">0..*</text>
+    <text x="554" y="112">1</text><text x="594" y="112">0..*</text>
+    <text x="880" y="112">1</text><text x="922" y="112">1..*</text>
+    <text x="158" y="388">1</text><text x="158" y="436">0..*</text>
+  </g>
+</svg>
+
