@@ -1,0 +1,136 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1420" height="920" viewBox="0 0 1420 920" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="fk" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M1,1 L9,5 L1,9" fill="none" stroke="#1e293b" stroke-width="1.6"/>
+    </marker>
+  </defs>
+  <rect width="1420" height="920" fill="#ffffff"/>
+  <text x="710" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Modelo Lógico Relacional (12 Tablas · 3FN) · SAB</text>
+
+  <!-- Row 1 -->
+  <rect x="30" y="60" width="240" height="125" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <rect x="30" y="60" width="240" height="26" fill="#1d4ed8"/><text x="150" y="78" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">sede</text>
+  <text x="40" y="102" font-size="10.5" font-weight="700">PK id_sede : INT</text>
+  <text x="40" y="118" font-size="10.5">nombre_sede : VARCHAR(100) UK</text>
+  <text x="40" y="134" font-size="10.5">ciudad : VARCHAR(60)</text>
+  <text x="40" y="150" font-size="10.5">estado : VARCHAR(20)</text>
+
+  <rect x="320" y="60" width="265" height="150" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <rect x="320" y="60" width="265" height="26" fill="#1d4ed8"/><text x="452" y="78" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">ficha</text>
+  <text x="330" y="102" font-size="10.5" font-weight="700">PK id_ficha : INT</text>
+  <text x="330" y="118" font-size="10.5">FK id_sede : INT</text>
+  <text x="330" y="134" font-size="10.5">FK id_lider : INT</text>
+  <text x="330" y="150" font-size="10.5">codigo_ficha : VARCHAR(20) UK</text>
+  <text x="330" y="166" font-size="10.5">programa : VARCHAR(120)</text>
+  <text x="330" y="182" font-size="10.5">jornada, estado : VARCHAR</text>
+
+  <rect x="640" y="60" width="285" height="150" fill="#fef9c3" stroke="#a16207" stroke-width="1.8"/>
+  <rect x="640" y="60" width="285" height="26" fill="#a16207"/><text x="782" y="78" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">vinculacion_ficha</text>
+  <text x="650" y="102" font-size="10.5" font-weight="700">PK id_vinculacion : INT</text>
+  <text x="650" y="118" font-size="10.5">FK id_ficha : INT</text>
+  <text x="650" y="134" font-size="10.5">FK id_usuario : INT</text>
+  <text x="650" y="150" font-size="10.5">rol_en_ficha : VARCHAR(20)</text>
+  <text x="650" y="166" font-size="10.5">fecha_vinculacion, fecha_retiro : DATE</text>
+  <text x="650" y="182" font-size="10.5">estado : VARCHAR(20)</text>
+
+  <rect x="985" y="60" width="395" height="170" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <rect x="985" y="60" width="395" height="26" fill="#1d4ed8"/><text x="1182" y="78" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">usuario</text>
+  <text x="995" y="102" font-size="10.5" font-weight="700">PK id_usuario : INT</text>
+  <text x="995" y="118" font-size="10.5">documento : VARCHAR(20) UK</text>
+  <text x="995" y="134" font-size="10.5">correo : VARCHAR(120) UK</text>
+  <text x="995" y="150" font-size="10.5">nombre_completo : VARCHAR(120)</text>
+  <text x="995" y="166" font-size="10.5">clave_hash : VARCHAR(255) | rol : VARCHAR(20)</text>
+  <text x="995" y="182" font-size="10.5">codigo_matricula, especialidad : VARCHAR</text>
+  <text x="995" y="198" font-size="10.5">estado : VARCHAR(20) | ultimo_acceso : DATETIME</text>
+
+  <!-- Row 2 -->
+  <rect x="30" y="295" width="250" height="140" fill="#f0fdf4" stroke="#0f766e" stroke-width="1.8"/>
+  <rect x="30" y="295" width="250" height="26" fill="#0f766e"/><text x="155" y="313" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">token_qr</text>
+  <text x="40" y="337" font-size="10.5" font-weight="700">PK id_token : BIGINT</text>
+  <text x="40" y="353" font-size="10.5">FK id_sesion : INT</text>
+  <text x="40" y="369" font-size="10.5">codigo_firma : CHAR(64) UK</text>
+  <text x="40" y="385" font-size="10.5">emitido_en, expira_en : DATETIME</text>
+  <text x="40" y="401" font-size="10.5">estado_token : VARCHAR(20)</text>
+
+  <rect x="320" y="295" width="290" height="150" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <rect x="320" y="295" width="290" height="26" fill="#1d4ed8"/><text x="465" y="313" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">sesion_formacion</text>
+  <text x="330" y="337" font-size="10.5" font-weight="700">PK id_sesion : INT</text>
+  <text x="330" y="353" font-size="10.5">FK id_ficha : INT</text>
+  <text x="330" y="369" font-size="10.5">FK id_instructor : INT</text>
+  <text x="330" y="385" font-size="10.5">fecha_apertura, fecha_cierre : DATETIME</text>
+  <text x="330" y="401" font-size="10.5">estado_sesion : VARCHAR(20)</text>
+  <text x="330" y="417" font-size="10.5">motivo_contingencia, soporte_contingencia</text>
+
+  <rect x="985" y="295" width="395" height="145" fill="#fff1f2" stroke="#9f1239" stroke-width="1.8"/>
+  <rect x="985" y="295" width="395" height="26" fill="#9f1239"/><text x="1182" y="313" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">plantilla_biometrica</text>
+  <text x="995" y="337" font-size="10.5" font-weight="700">PK id_plantilla : INT</text>
+  <text x="995" y="353" font-size="10.5">FK id_usuario : INT (UK 1:1)</text>
+  <text x="995" y="369" font-size="10.5">referencia_protegida : VARBINARY(512)</text>
+  <text x="995" y="385" font-size="10.5">acepta_tratamiento : TINYINT(1)</text>
+  <text x="995" y="401" font-size="10.5">fecha_aceptacion : DATETIME | estado_vigencia</text>
+  <text x="995" y="417" font-size="10.5">fecha_baja : DATETIME</text>
+
+  <rect x="650" y="295" width="290" height="140" fill="#f1f5f9" stroke="#334155" stroke-width="1.8"/>
+  <rect x="650" y="295" width="290" height="26" fill="#334155"/><text x="795" y="313" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">parametro_sistema</text>
+  <text x="660" y="337" font-size="10.5" font-weight="700">PK clave_parametro : VARCHAR(50)</text>
+  <text x="660" y="353" font-size="10.5">valor_parametro : VARCHAR(100)</text>
+  <text x="660" y="369" font-size="10.5">descripcion : VARCHAR(200)</text>
+  <text x="660" y="385" font-size="10.5">FK actualizado_por : INT</text>
+  <text x="660" y="401" font-size="10.5">actualizado_en : DATETIME</text>
+
+  <!-- Row 3 -->
+  <rect x="30" y="545" width="295" height="155" fill="#dcfce7" stroke="#0f766e" stroke-width="1.8"/>
+  <rect x="30" y="545" width="295" height="26" fill="#0f766e"/><text x="177" y="563" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">asistencia</text>
+  <text x="40" y="587" font-size="10.5" font-weight="700">PK id_asistencia : BIGINT</text>
+  <text x="40" y="603" font-size="10.5">FK id_sesion, id_aprendiz (UK par)</text>
+  <text x="40" y="619" font-size="10.5">estado_asistencia : VARCHAR(20)</text>
+  <text x="40" y="635" font-size="10.5">origen_registro : VARCHAR(20)</text>
+  <text x="40" y="651" font-size="10.5">marca_tiempo : DATETIME</text>
+  <text x="40" y="667" font-size="10.5">motivo_manual : VARCHAR(255)</text>
+  <text x="40" y="683" font-size="10.5">FK registrada_por : INT</text>
+
+  <rect x="360" y="545" width="295" height="155" fill="#fff1f2" stroke="#9f1239" stroke-width="1.8"/>
+  <rect x="360" y="545" width="295" height="26" fill="#9f1239"/><text x="507" y="563" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">incidencia</text>
+  <text x="370" y="587" font-size="10.5" font-weight="700">PK id_incidencia : BIGINT</text>
+  <text x="370" y="603" font-size="10.5">FK id_sesion, id_aprendiz : INT</text>
+  <text x="370" y="619" font-size="10.5">tipo_incidencia : VARCHAR(40)</text>
+  <text x="370" y="635" font-size="10.5">intentos_fallidos : TINYINT</text>
+  <text x="370" y="651" font-size="10.5">estado_resolucion : VARCHAR(25)</text>
+  <text x="370" y="667" font-size="10.5">decision_resolucion : VARCHAR(255)</text>
+  <text x="370" y="683" font-size="10.5">FK resuelta_por : INT | fecha_resolucion</text>
+
+  <rect x="690" y="545" width="295" height="155" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <rect x="690" y="545" width="295" height="26" fill="#1d4ed8"/><text x="837" y="563" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">excusa</text>
+  <text x="700" y="587" font-size="10.5" font-weight="700">PK id_excusa : BIGINT</text>
+  <text x="700" y="603" font-size="10.5">FK id_aprendiz, id_sesion : INT</text>
+  <text x="700" y="619" font-size="10.5">tipo_excusa : VARCHAR(40)</text>
+  <text x="700" y="635" font-size="10.5">observacion : VARCHAR(500)</text>
+  <text x="700" y="651" font-size="10.5">ruta_soporte : VARCHAR(255)</text>
+  <text x="700" y="667" font-size="10.5">estado_recepcion : VARCHAR(20)</text>
+  <text x="700" y="683" font-size="10.5">FK confirmada_por : INT | fecha_confirmacion</text>
+
+  <rect x="1025" y="545" width="355" height="155" fill="#f1f5f9" stroke="#334155" stroke-width="1.8"/>
+  <rect x="1025" y="545" width="355" height="26" fill="#334155"/><text x="1202" y="563" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">bitacora_auditoria</text>
+  <text x="1035" y="587" font-size="10.5" font-weight="700">PK id_auditoria : BIGINT</text>
+  <text x="1035" y="603" font-size="10.5">FK id_actor : INT</text>
+  <text x="1035" y="619" font-size="10.5">entidad_recurso : VARCHAR(60)</text>
+  <text x="1035" y="635" font-size="10.5">id_registro_afectado : VARCHAR(40)</text>
+  <text x="1035" y="651" font-size="10.5">operacion : VARCHAR(40)</text>
+  <text x="1035" y="667" font-size="10.5">valor_anterior, valor_nuevo : TEXT</text>
+  <text x="1035" y="683" font-size="10.5">resultado : VARCHAR(20) | fecha_evento</text>
+
+  <!-- FK Lines -->
+  <g stroke="#1e293b" stroke-width="1.5" fill="none" marker-end="url(#fk)">
+    <line x1="270" y1="120" x2="320" y2="120"/>
+    <line x1="585" y1="120" x2="640" y2="120"/>
+    <line x1="985" y1="120" x2="925" y2="120"/>
+    <line x1="1182" y1="230" x2="1182" y2="295"/>
+    <line x1="452" y1="210" x2="452" y2="295"/>
+    <line x1="320" y1="360" x2="280" y2="360"/>
+    <polyline points="1025,230 1025,260 795,260 795,295"/>
+    <polyline points="420,445 420,495 177,495 177,545"/>
+    <polyline points="465,445 465,495 507,495 507,545"/>
+    <polyline points="510,445 510,495 837,495 837,545"/>
+    <polyline points="1355,230 1395,230 1395,520 1202,520 1202,545"/>
+  </g>
+</svg>

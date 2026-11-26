@@ -39,8 +39,9 @@ classDiagram
   }
   class Instructor {
     -especialidad: str
+    -esLider: bool
     +abrirSesion(idFicha: int) SesionFormacion
-    +registrarManual(idSesion: int, idAprendiz: int, motivo: str) RegistroAsistencia
+    +registrarManual(idS: int, idA: int, mot: str) RegistroAsistencia
   }
   class Ficha {
     -idFicha: int
@@ -130,6 +131,7 @@ classDiagram
   SesionFormacion "1" --> "0..*" RegistroAsistencia
   Aprendiz "1" --> "0..*" RegistroAsistencia
   SesionFormacion "1" --> "0..*" Incidencia
+  SesionFormacion "1" --> "0..*" Excusa
   Aprendiz "1" --> "0..*" Excusa
   FachadaAsistenciaSAB --> ProveedorBiometrico
   FachadaAsistenciaSAB --> ExportadorReporte

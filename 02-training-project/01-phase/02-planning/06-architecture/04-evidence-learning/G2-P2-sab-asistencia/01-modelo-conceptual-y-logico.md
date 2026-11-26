@@ -45,6 +45,8 @@
 
 ## 3. Modelo Lógico Relacional (12 tablas normalizadas en 3FN)
 
+**Diagrama lógico exportado:** [`01-modelo-logico.png`](./01-modelo-logico.png) · [`01-modelo-logico.svg`](./01-modelo-logico.svg)
+
 ```mermaid
 erDiagram
   sede ||--o{ ficha : "1:N"
