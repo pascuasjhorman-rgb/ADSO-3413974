@@ -1,0 +1,166 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="860" viewBox="0 0 1320 860" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="gen" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto">
+      <polygon points="2,2 12,7 2,12" fill="#ffffff" stroke="#1e293b" stroke-width="1.8"/>
+    </marker>
+  </defs>
+  <rect width="1320" height="860" fill="#ffffff"/>
+  <text x="660" y="32" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Modelo de Dominio (Conceptual) · Sistema de Asistencia Biométrica (SAB)</text>
+  <text x="660" y="52" text-anchor="middle" font-size="12" fill="#475569">Clases conceptuales del negocio con atributos (sin métodos ni claves foráneas)</text>
+
+  <!-- Helper function via explicit boxes -->
+  <!-- Usuario (top center-left) -->
+  <rect x="260" y="75" width="220" height="106" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <line x1="260" y1="103" x2="480" y2="103" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="370" y="94" text-anchor="middle" font-size="13" font-weight="700">Usuario</text>
+  <text x="272" y="122" font-size="11.5">numeroDocumento</text>
+  <text x="272" y="139" font-size="11.5">nombreCompleto</text>
+  <text x="272" y="156" font-size="11.5">correoInstitucional</text>
+  <text x="272" y="173" font-size="11.5">estadoCuenta</text>
+
+  <!-- Aprendiz (left) -->
+  <rect x="55" y="250" width="205" height="90" fill="#f0fdf4" stroke="#0f766e" stroke-width="1.8"/>
+  <line x1="55" y1="278" x2="260" y2="278" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="157" y="269" text-anchor="middle" font-size="13" font-weight="700">Aprendiz</text>
+  <text x="67" y="297" font-size="11.5">codigoMatricula</text>
+  <text x="67" y="314" font-size="11.5">estadoAcademico</text>
+  <text x="67" y="331" font-size="11.5">fechaIngreso</text>
+
+  <!-- Instructor (center) -->
+  <rect x="330" y="250" width="205" height="90" fill="#f0fdf4" stroke="#0f766e" stroke-width="1.8"/>
+  <line x1="330" y1="278" x2="535" y2="278" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="432" y="269" text-anchor="middle" font-size="13" font-weight="700">Instructor</text>
+  <text x="342" y="297" font-size="11.5">especialidad</text>
+  <text x="342" y="314" font-size="11.5">esLiderFicha</text>
+  <text x="342" y="331" font-size="11.5">estadoVinculacion</text>
+
+  <!-- Generalizacion Aprendiz/Instructor -> Usuario -->
+  <polyline points="157,250 157,215 370,215 370,183" fill="none" stroke="#1e293b" stroke-width="1.6" marker-end="url(#gen)"/>
+  <polyline points="432,250 432,215 370,215" fill="none" stroke="#1e293b" stroke-width="1.6"/>
+  <text x="275" y="207" font-size="10.5" fill="#475569">{generalización}</text>
+
+  <!-- Sede (top right) -->
+  <rect x="980" y="75" width="220" height="92" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <line x1="980" y1="103" x2="1200" y2="103" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="1090" y="94" text-anchor="middle" font-size="13" font-weight="700">Sede</text>
+  <text x="992" y="122" font-size="11.5">nombreSede</text>
+  <text x="992" y="139" font-size="11.5">ciudad</text>
+  <text x="992" y="156" font-size="11.5">estadoSede</text>
+
+  <!-- Ficha (right) -->
+  <rect x="650" y="242" width="220" height="106" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <line x1="650" y1="270" x2="870" y2="270" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="760" y="261" text-anchor="middle" font-size="13" font-weight="700">Ficha</text>
+  <text x="662" y="289" font-size="11.5">codigoFicha</text>
+  <text x="662" y="306" font-size="11.5">programaFormacion</text>
+  <text x="662" y="323" font-size="11.5">jornada</text>
+  <text x="662" y="340" font-size="11.5">estadoFicha</text>
+
+  <!-- VinculacionFicha (clase de asociacion) -->
+  <rect x="635" y="90" width="230" height="92" fill="#fef9c3" stroke="#a16207" stroke-width="1.8"/>
+  <line x1="635" y1="118" x2="865" y2="118" stroke="#a16207" stroke-width="1.5"/>
+  <text x="750" y="109" text-anchor="middle" font-size="13" font-weight="700">VinculacionFicha</text>
+  <text x="647" y="137" font-size="11.5">fechaVinculacion</text>
+  <text x="647" y="154" font-size="11.5">estadoVinculacion</text>
+  <text x="647" y="171" font-size="11.5">fechaRetiro</text>
+
+  <!-- PlantillaBiometrica (bottom left) -->
+  <rect x="55" y="450" width="220" height="92" fill="#fff1f2" stroke="#9f1239" stroke-width="1.8"/>
+  <line x1="55" y1="478" x2="275" y2="478" stroke="#9f1239" stroke-width="1.5"/>
+  <text x="165" y="469" text-anchor="middle" font-size="13" font-weight="700">PlantillaBiometrica</text>
+  <text x="67" y="497" font-size="11.5">referenciaProtegida</text>
+  <text x="67" y="514" font-size="11.5">fechaConsentimiento</text>
+  <text x="67" y="531" font-size="11.5">estadoVigencia</text>
+
+  <!-- SesionFormacion (center bottom) -->
+  <rect x="640" y="450" width="235" height="106" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <line x1="640" y1="478" x2="875" y2="478" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="757" y="469" text-anchor="middle" font-size="13" font-weight="700">SesionFormacion</text>
+  <text x="652" y="497" font-size="11.5">fechaApertura</text>
+  <text x="652" y="514" font-size="11.5">fechaCierre</text>
+  <text x="652" y="531" font-size="11.5">estadoSesion</text>
+  <text x="652" y="548" font-size="11.5">motivoContingencia</text>
+
+  <!-- TokenQR (right middle) -->
+  <rect x="1000" y="450" width="220" height="106" fill="#f0fdf4" stroke="#0f766e" stroke-width="1.8"/>
+  <line x1="1000" y1="478" x2="1220" y2="478" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="1110" y="469" text-anchor="middle" font-size="13" font-weight="700">TokenQR</text>
+  <text x="1012" y="497" font-size="11.5">codigoTemporal</text>
+  <text x="1012" y="514" font-size="11.5">fechaEmision</text>
+  <text x="1012" y="531" font-size="11.5">fechaExpiracion</text>
+  <text x="1012" y="548" font-size="11.5">estadoVigencia</text>
+
+  <!-- RegistroAsistencia (bottom center-left) -->
+  <rect x="330" y="670" width="230" height="106" fill="#dcfce7" stroke="#0f766e" stroke-width="1.8"/>
+  <line x1="330" y1="698" x2="560" y2="698" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="445" y="689" text-anchor="middle" font-size="13" font-weight="700">RegistroAsistencia</text>
+  <text x="342" y="717" font-size="11.5">estadoAsistencia</text>
+  <text x="342" y="734" font-size="11.5">origenRegistro</text>
+  <text x="342" y="751" font-size="11.5">marcaTiempo</text>
+  <text x="342" y="768" font-size="11.5">justificacionManual</text>
+
+  <!-- Incidencia (bottom center-right) -->
+  <rect x="640" y="670" width="235" height="106" fill="#fff1f2" stroke="#9f1239" stroke-width="1.8"/>
+  <line x1="640" y1="698" x2="875" y2="698" stroke="#9f1239" stroke-width="1.5"/>
+  <text x="757" y="689" text-anchor="middle" font-size="13" font-weight="700">Incidencia</text>
+  <text x="652" y="717" font-size="11.5">tipoIncidencia</text>
+  <text x="652" y="734" font-size="11.5">intentosFallidos</text>
+  <text x="652" y="751" font-size="11.5">estadoResolucion</text>
+  <text x="652" y="768" font-size="11.5">decisionInstructor</text>
+
+  <!-- Excusa (bottom right) -->
+  <rect x="975" y="670" width="245" height="122" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <line x1="975" y1="698" x2="1220" y2="698" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="1097" y="689" text-anchor="middle" font-size="13" font-weight="700">Excusa</text>
+  <text x="987" y="717" font-size="11.5">fechaAusencia</text>
+  <text x="987" y="734" font-size="11.5">tipoExcusa</text>
+  <text x="987" y="751" font-size="11.5">observacion</text>
+  <text x="987" y="768" font-size="11.5">rutaSoporte</text>
+  <text x="987" y="785" font-size="11.5">estadoRecepcion</text>
+
+  <!-- Asociaciones y multiplicidades -->
+  <g stroke="#334155" stroke-width="1.5" fill="none">
+    <!-- Sede 1 a 1..* Ficha -->
+    <polyline points="1090,167 1090,295 870,295"/>
+    <!-- Instructor 1 a 0..* Ficha -->
+    <line x1="535" y1="295" x2="650" y2="295"/>
+    <!-- Aprendiz a VinculacionFicha a Ficha -->
+    <polyline points="200,250 200,200 580,200 580,315 650,315"/>
+    <line x1="580" y1="200" x2="635" y2="155" stroke-dasharray="5,4"/>
+    <!-- Aprendiz 1 a 0..1 PlantillaBiometrica -->
+    <line x1="165" y1="340" x2="165" y2="450"/>
+    <!-- Instructor 1 a 0..* SesionFormacion -->
+    <polyline points="432,340 432,500 640,500"/>
+    <!-- Ficha 1 a 0..* SesionFormacion -->
+    <line x1="757" y1="348" x2="757" y2="450"/>
+    <!-- SesionFormacion 1 a 1..* TokenQR -->
+    <line x1="875" y1="500" x2="1000" y2="500"/>
+    <!-- SesionFormacion 1 a 0..* RegistroAsistencia -->
+    <polyline points="700,556 700,615 445,615 445,670"/>
+    <!-- SesionFormacion 1 a 0..* Incidencia -->
+    <line x1="757" y1="556" x2="757" y2="670"/>
+    <!-- SesionFormacion 1 a 0..* Excusa -->
+    <polyline points="820,556 820,615 1097,615 1097,670"/>
+    <!-- Aprendiz 1 a 0..* RegistroAsistencia -->
+    <line x1="115" y1="725" x2="330" y2="725"/>
+    <!-- Aprendiz 1 a 0..* Excusa / Incidencia -->
+    <polyline points="115,340 115,825 1097,825 1097,792"/>
+    <line x1="757" y1="776" x2="757" y2="825"/>
+  </g>
+  <g font-size="11" font-weight="700" fill="#1e293b">
+    <text x="1075" y="184">1</text><text x="882" y="288">1..*</text><text x="970" y="288">contiene</text>
+    <text x="545" y="288">1</text><text x="622" y="288">0..*</text><text x="582" y="275">lidera</text>
+    <text x="210" y="242">1..*</text><text x="618" y="330">1..*</text>
+    <text x="174" y="358">1</text><text x="174" y="442">0..1</text>
+    <text x="442" y="358">1</text><text x="615" y="492">0..*</text><text x="520" y="492">dirige</text>
+    <text x="765" y="365">1</text><text x="765" y="442">0..*</text>
+    <text x="884" y="492">1</text><text x="975" y="492">1..*</text><text x="935" y="492">emite</text>
+    <text x="708" y="574">1</text><text x="454" y="662">0..*</text>
+    <text x="765" y="574">1</text><text x="765" y="662">0..*</text>
+    <text x="828" y="574">1</text><text x="1105" y="662">0..*</text>
+    <text x="122" y="718">1</text><text x="305" y="718">0..*</text>
+    <text x="765" y="794">0..*</text><text x="1105" y="810">0..*</text>
+  </g>
+</svg>
+
+

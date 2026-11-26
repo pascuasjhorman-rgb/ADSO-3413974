@@ -1,0 +1,94 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="820" viewBox="0 0 1100 820" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M1,1 L9,5 L1,9 Z" fill="#1e293b"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="820" fill="#ffffff"/>
+  <text x="550" y="32" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Diagrama de Actividades UML · CU-11 / CU-12 Gestión de Contingencia y Cierre</text>
+
+  <!-- Swimlanes -->
+  <rect x="30" y="50" width="440" height="740" fill="#f8fafc" stroke="#475569" stroke-width="1.8"/>
+  <rect x="470" y="50" width="600" height="740" fill="#f0fdf4" stroke="#475569" stroke-width="1.8"/>
+  <rect x="30" y="50" width="440" height="36" fill="#e2e8f0" stroke="#475569"/>
+  <rect x="470" y="50" width="600" height="36" fill="#dcfce7" stroke="#475569"/>
+  <text x="250" y="73" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">Instructor líder</text>
+  <text x="770" y="73" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">Sistema SAB</text>
+
+  <!-- Start -->
+  <circle cx="250" cy="115" r="12" fill="#0f172a"/>
+  <line x1="250" y1="127" x2="250" y2="152" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+
+  <!-- Detectar falla y registrar novedad -->
+  <rect x="115" y="154" width="270" height="44" rx="12" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <text x="250" y="181" text-anchor="middle" font-size="12.5" font-weight="600">Detectar fallo de lector, red o energía</text>
+  <line x1="250" y1="198" x2="250" y2="232" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+
+  <!-- Decision: viable manual? -->
+  <polygon points="250,234 345,270 250,306 155,270" fill="#fef9c3" stroke="#a16207" stroke-width="1.8"/>
+  <text x="250" y="274" text-anchor="middle" font-size="11.5" font-weight="700">¿Viable manual?</text>
+
+  <!-- Rama SI: [viable registro manual] -->
+  <line x1="155" y1="270" x2="100" y2="270" stroke="#1e293b" stroke-width="1.6"/>
+  <polyline points="100,270 100,348 138,348" fill="none" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <text x="108" y="260" text-anchor="middle" font-size="10.5" fill="#065f46">[viable manual]</text>
+  <rect x="140" y="326" width="240" height="44" rx="12" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.8"/>
+  <text x="260" y="352" text-anchor="middle" font-size="12" font-weight="600">Marcar lista manual y causa</text>
+
+  <!-- Rama NO: [no viable; cancelar clase] -->
+  <polyline points="345,270 390,270 390,414 382,414" fill="none" stroke="#1e293b" stroke-width="1.8"/>
+  <line x1="390" y1="414" x2="382" y2="414" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <text x="430" y="340" text-anchor="middle" font-size="10.5" fill="#9f1239">[no es viable]</text>
+  <rect x="140" y="392" width="240" height="44" rx="12" fill="#ffffff" stroke="#9f1239" stroke-width="1.8"/>
+  <text x="260" y="418" text-anchor="middle" font-size="12" font-weight="600">Registrar motivo y adjuntar soporte</text>
+
+  <!-- Sistema valida datos -->
+  <polyline points="380,348 535,348 535,380" fill="none" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <polyline points="380,414 500,414" fill="none" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+
+  <polygon points="575,382 650,414 575,446 500,414" fill="#fef9c3" stroke="#a16207" stroke-width="1.8"/>
+  <text x="575" y="418" text-anchor="middle" font-size="11" font-weight="700">¿Completos?</text>
+
+  <!-- [faltan datos] loop back -->
+  <polyline points="575,446 575,478 260,478 260,438" fill="none" stroke="#9f1239" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr2)"/>
+  <text x="425" y="494" text-anchor="middle" font-size="10" fill="#9f1239">[faltan motivo o soporte]</text>
+
+  <!-- [datos completos] -> guardar y auditar -->
+  <line x1="650" y1="414" x2="725" y2="414" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <text x="688" y="404" text-anchor="middle" font-size="10.5" fill="#065f46">[completos]</text>
+  <rect x="727" y="390" width="260" height="48" rx="12" fill="#dcfce7" stroke="#0f766e" stroke-width="1.8"/>
+  <text x="857" y="411" text-anchor="middle" font-size="12" font-weight="700">Guardar estado, origen y</text>
+  <text x="857" y="427" text-anchor="middle" font-size="12" font-weight="700">traza en bitácora</text>
+
+  <!-- Fork bar -->
+  <line x1="857" y1="438" x2="857" y2="480" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <rect x="700" y="482" width="310" height="8" rx="2" fill="#0f172a"/>
+  <text x="1032" y="490" font-size="10.5" fill="#475569">fork</text>
+
+  <!-- Parallel branches -->
+  <line x1="765" y1="490" x2="765" y2="528" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <line x1="945" y1="490" x2="945" y2="528" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+
+  <rect x="665" y="530" width="185" height="48" rx="12" fill="#ffffff" stroke="#0f766e" stroke-width="1.8"/>
+  <text x="757" y="552" text-anchor="middle" font-size="12" font-weight="600">Generar consolidado</text>
+  <text x="757" y="568" text-anchor="middle" font-size="11">PDF / XLSX</text>
+
+  <rect x="865" y="530" width="180" height="48" rx="12" fill="#ffffff" stroke="#0f766e" stroke-width="1.8"/>
+  <text x="955" y="552" text-anchor="middle" font-size="12" font-weight="600">Notificar estado</text>
+  <text x="955" y="568" text-anchor="middle" font-size="11">a la ficha</text>
+
+  <!-- Join bar -->
+  <line x1="765" y1="578" x2="765" y2="616" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <line x1="945" y1="578" x2="945" y2="616" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <rect x="700" y="618" width="310" height="8" rx="2" fill="#0f172a"/>
+  <text x="1032" y="626" font-size="10.5" fill="#475569">join</text>
+
+  <!-- Fin -->
+  <line x1="857" y1="626" x2="857" y2="672" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <rect x="745" y="674" width="225" height="42" rx="12" fill="#ffffff" stroke="#0f766e" stroke-width="1.8"/>
+  <text x="857" y="700" text-anchor="middle" font-size="12.5" font-weight="600">Cerrar sesión de contingencia</text>
+  <line x1="857" y1="716" x2="857" y2="744" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <circle cx="857" cy="760" r="13" fill="none" stroke="#0f172a" stroke-width="2.2"/>
+  <circle cx="857" cy="760" r="7" fill="#0f172a"/>
+</svg>
+

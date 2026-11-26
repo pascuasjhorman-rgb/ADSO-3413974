@@ -1,0 +1,23 @@
+﻿<mxfile host="app.diagrams.net" agent="Antigravity" version="24.0.0">
+  <diagram id="act-cu08" name="CU-08 Asistencia Ordinaria">
+    <mxGraphModel dx="1220" dy="860" grid="1" gridSize="10" page="1" pageWidth="1220" pageHeight="860">
+      <root>
+        <mxCell id="0"/><mxCell id="1" parent="0"/>
+        <mxCell id="lane1" value="Aprendiz" style="swimlane;startSize=30;fillColor=#f8fafc;" vertex="1" parent="1"><mxGeometry x="30" y="50" width="380" height="780" as="geometry"/></mxCell>
+        <mxCell id="lane2" value="Sistema SAB" style="swimlane;startSize=30;fillColor=#f0fdf4;" vertex="1" parent="1"><mxGeometry x="410" y="50" width="460" height="780" as="geometry"/></mxCell>
+        <mxCell id="lane3" value="Servicio biométrico" style="swimlane;startSize=30;fillColor=#fff1f2;" vertex="1" parent="1"><mxGeometry x="870" y="50" width="320" height="780" as="geometry"/></mxCell>
+        <mxCell id="n0" value="" style="ellipse;fillColor=#0f172a;" vertex="1" parent="lane1"><mxGeometry x="175" y="60" width="24" height="24" as="geometry"/></mxCell>
+        <mxCell id="n1" value="Seleccionar sesión activa" style="rounded=1;" vertex="1" parent="lane1"><mxGeometry x="75" y="110" width="230" height="44" as="geometry"/></mxCell>
+        <mxCell id="n2" value="¿Previa?" style="rhombus;fillColor=#fef9c3;" vertex="1" parent="lane2"><mxGeometry x="110" y="102" width="120" height="60" as="geometry"/></mxCell>
+        <mxCell id="n3" value="Capturar muestra de huella" style="rounded=1;" vertex="1" parent="lane1"><mxGeometry x="75" y="210" width="230" height="44" as="geometry"/></mxCell>
+        <mxCell id="n4" value="Cotejar plantilla biométrica" style="rounded=1;" vertex="1" parent="lane3"><mxGeometry x="55" y="270" width="210" height="44" as="geometry"/></mxCell>
+        <mxCell id="n5" value="¿Coincide?" style="rhombus;fillColor=#fef9c3;" vertex="1" parent="lane2"><mxGeometry x="110" y="330" width="120" height="60" as="geometry"/></mxCell>
+        <mxCell id="n6" value="Habilitar lectura QR (10 s)" style="rounded=1;" vertex="1" parent="lane2"><mxGeometry x="75" y="435" width="190" height="44" as="geometry"/></mxCell>
+        <mxCell id="n7" value="Escanear código QR vigente" style="rounded=1;" vertex="1" parent="lane1"><mxGeometry x="75" y="435" width="230" height="44" as="geometry"/></mxCell>
+        <mxCell id="n8" value="¿QR válido?" style="rhombus;fillColor=#fef9c3;" vertex="1" parent="lane2"><mxGeometry x="110" y="510" width="120" height="60" as="geometry"/></mxCell>
+        <mxCell id="n9" value="Registrar asistencia y auditoría" style="rounded=1;fillColor=#dcfce7;" vertex="1" parent="lane2"><mxGeometry x="55" y="615" width="230" height="48" as="geometry"/></mxCell>
+        <mxCell id="n10" value="Visualizar confirmación" style="rounded=1;" vertex="1" parent="lane1"><mxGeometry x="75" y="615" width="230" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
