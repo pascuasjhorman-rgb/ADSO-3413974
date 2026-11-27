@@ -1,114 +1,128 @@
-# Insumo de análisis · Sistema de Asistencia Biométrica (SAB)
+# Insumo de análisis · Sistema de Asistencia Biométrica (SAB / BioSENA)
 
-**Código de referencia:** `SRS-SAB-001` (v1.1)  
-**Autor de esta síntesis y entregas individuales:** `@pascuasjhorman-rgb`  
-**Trabajo previo reutilizado del fork:**
-- `03-execute/16-week/02-optional-activity/registro de asistencia.md` (levantamiento inicial por observación y primeros RF01–RF06 + casos de uso iniciales)
-- `03-execute/17-week/02-optional-activity/Hoja_de_Ruta_Sistema_Toma_de_Asistencias.md` (planificación por fases)
-- `03-execute/23-week/02-optional-activity/Sistema_Asistencia_1.1 (1).txt` (diagnóstico de necesidades, justificación cuantitativa y objetivos)
-- `03-execute/23-week/02-optional-activity/asistencia_sena_mockup.png` (referencia previa de interfaz; rediseñada sin datos reales de terceros para SAB)
+**Código de referencia:** `SRS-SAB-001` (Versión oficial 2.3 · 27 de noviembre de 2026)  
+**Proyecto:** Sistema de Asistencia Biométrica (SAB) / BioSENA  
+**Autores del SRS base en equipo:** Juan Sebastián Medina Cardozo, Jhon Stiven Alba Quiroga, Jhorman Pascuas  
+**Programa y Ficha:** Tecnología en Análisis y Desarrollo de Software · Ficha 3413974  
+**Centro de formación:** Centro de la Industria, la Empresa y los Servicios (CIES) · Neiva, Huila  
+**Autor de esta síntesis, modelado y entregas individuales:** `@pascuasjhorman-rgb`  
+**Prototipo interactivo en línea oficial:** [BioSENA Mockup Web](https://biosena-asistencia-biom-trica.ai.studio/)  
 
-> **Nota de equipo y privacidad:** El documento completo `SRS-SAB-001` fue elaborado en equipo de 3 aprendices para el proyecto formativo SAB. En cumplimiento de las reglas del repositorio público, no se publican nombres completos, documentos ni datos personales de terceros.
+**Trabajo previo y antecedentes reutilizados del fork:**
+- `03-execute/16-week/02-optional-activity/registro de asistencia.md` (levantamiento inicial por observación, problemática de llamados a lista en la ficha 3413974 y primeros RF01–RF06)
+- `03-execute/17-week/02-optional-activity/Hoja_de_Ruta_Sistema_Toma_de_Asistencias.md` (planificación del ciclo de vida en 7 fases)
+- `03-execute/17-week/02-optional-activity/sena_asistencia_.zip` (mockups y prototipos base de interfaz)
+- `03-execute/23-week/02-optional-activity/Sistema_Asistencia_1.1 (1).txt` (diagnóstico cuantitativo de tiempos en SOFIA Plus: 45 min diarios perdidos por jornada)
+- `03-execute/24-week/02-optional-activity/Proyecto_mejora_Kevin_Brenda_Castro_Jhorman.zip` (arquitectura de mejora y módulos funcionales)
 
----
-
-## 1. Descripción general del caso SAB
-
-**Propósito:** Sustituir el llamado a lista manual en papel o en plataformas lentas durante las sesiones de formación del SENA (y adaptable a instituciones educativas) mediante una aplicación web cliente-servidor con doble verificación operativa (**huella biométrica + código QR dinámico de sesión**), gestión de contingencias manuales, excusas con soporte, auditoría y exportación de reportes en PDF y XLSX.
-
-**Actores del sistema:**
-- **Aprendiz (Primario):** Inicia sesión, verifica huella biométrica, escanea código QR vigente para registrar su asistencia, consulta su historial y envía excusas con soporte.
-- **Instructor líder de ficha (Primario):** Registra aprendices en sus fichas a cargo, abre/cierra sesiones, proyecta el QR dinámico, gestiona incidencias/contingencias, confirma recepción de excusas y exporta reportes de sesión.
-- **Coordinador (Primario):** Consulta reportes consolidados e indicadores por sede, ficha, instructor y rango de fechas, supervisando novedades conforme a permisos.
-- **Administrador (Primario):** Administra sedes, fichas, cuentas de instructores y coordinadores, asignación/reasignación de líderes con bitácora, parámetros operativos y eliminación biométrica al egreso.
-- **Servicio biométrico (Secundario):** Componente/proveedor externo o local compatible que realiza captura, enrolamiento y cotejo de plantillas biométricas bajo contrato definido.
+> **Nota de privacidad:** En cumplimiento de las directrices de repositorios públicos y la Ley 1581 de 2012, no se publican documentos de identidad reales, teléfonos ni correos personales de terceros. El autor individual se identifica con su cuenta de GitHub `@pascuasjhorman-rgb`.
 
 ---
 
-## 2. Reglas de negocio clave (`RN-01` a `RN-12`)
+## 1. Descripción general y alcance del sistema
 
-| Código | Regla |
+**Propósito:** Digitalizar y agilizar el control de asistencia en el Servicio Nacional de Aprendizaje (SENA) y adaptable a instituciones educativas, eliminando el llamado a lista manual mediante una aplicación web con doble factor operativo de verificación:
+1. **Código QR dinámico** de sesión (o código numérico manual de 4-6 dígitos para contingencia).
+2. **Verificación de identidad** guiada (WebAuthn / reconocimiento facial o alternativa supervisada sin biometría).
+
+**Roles del sistema (v2.3):**
+- **Aprendiz:** Registra asistencia validando QR y su identidad, consulta su historial propio, porcentaje de horas, competencias, excusas con soporte y notificaciones.
+- **Instructor:** Abre y cierra sesiones asignadas de su ficha, proyecta el QR/código temporal, supervisa asistencias e incidencias en tiempo real, gestiona contingencias manuales y exporta reportes en PDF y XLSX.
+- **Superadmin:** Administra sedes, fichas, programas, ambientes, instructores, horarios académicos, novedades institucionales, reportes consolidados y auditoría del sistema.
+- **Servicio de verificación de identidad (Secundario):** Servicio compatible para autenticación local o remota bajo contratos REST definidos.
+
+---
+
+## 2. Reglas de negocio clave (`RN-001` a `RN-029`)
+
+| Código | Regla de negocio |
 |---|---|
-| `RN-01` | Solo el instructor líder asignado registra aprendices en sus fichas. |
-| `RN-02` | El administrador puede asignar o reasignar el liderazgo dejando constancia en bitácora. |
-| `RN-03` | Una asistencia ordinaria requiere verificación biométrica válida y QR de la misma sesión. |
-| `RN-04` | El QR rota cada 15 segundos; la ventana de escaneo asignada al aprendiz es de 10 segundos (parámetros configurables). |
-| `RN-05` | Se permiten hasta 3 intentos de validación fallidos por proceso; al superar el límite se crea incidencia para el instructor. |
-| `RN-06` | Un aprendiz no puede generar dos asistencias válidas para la misma sesión. |
-| `RN-07` | El instructor puede registrar asistencia manual de emergencia indicando motivo y dejando auditoría. |
-| `RN-08` | Ante cancelación de clase por contingencia se exige registrar motivo y adjuntar soporte. |
-| `RN-09` | El aprendiz puede presentar excusa; el instructor confirma recepción sin implicar aprobación automática. |
-| `RN-10` | Al cerrar una sesión quedan disponibles exportaciones PDF y XLSX de su reporte. |
-| `RN-11` | La biometría se elimina al finalizar el programa conforme a política documentada; datos básicos pueden conservarse según reglas institucionales. |
-| `RN-12` | Toda operación administrativa sensible deja usuario, fecha, recurso y resultado en auditoría. |
+| `RN-001` | Solo el instructor líder asignado registra aprendices en sus fichas a cargo. |
+| `RN-002` | El Superadmin puede reasignar el liderazgo dejando constancia auditable en bitácora. |
+| `RN-003` | Primero se valida el QR o código y luego la identidad; ambos deben corresponder a la misma sesión activa. |
+| `RN-004` | El QR rota periódicamente cada 15 s; el código numérico de contingencia dura 60 s. |
+| `RN-005` | Tres fallos de identidad consecutivos generan una incidencia para el instructor. Los fallos técnicos de red no cuentan como fallos de identidad. |
+| `RN-006` | Cada aprendiz puede registrar una única asistencia válida por sesión (clave única de base de datos). |
+| `RN-007` | El registro manual de contingencia exige indicar motivo y nombre del instructor responsable. |
+| `RN-008` | Ante cancelación de clase por fuerza mayor se exige registrar motivo y soporte. Una sesión cancelada no genera ausencias. |
+| `RN-009` | El aprendiz puede enviar excusa con adjunto; recibir la excusa no implica aprobación automática. |
+| `RN-010` | Al cerrar una sesión quedan disponibles las exportaciones en formatos estándar PDF y XLSX. |
+| `RN-011` | Los datos biométricos se eliminan al finalizar el programa según la política aprobada (Ley 1581 de 2012). |
+| `RN-012` | Toda operación administrativa sensible deja actor, fecha, recurso y resultado en la bitácora de auditoría. |
+| `RN-013` | La hora del servidor define si la asistencia se clasifica como puntual o retardo. |
+| `RN-014` | No se registra información biométrica sin autorización previa y constancia registrada. |
+| `RN-015` | Quien tenga autorización de excepción cuenta con una ruta supervisada sin uso de biometría. |
+| `RN-016` | Una sesión cerrada no acepta nuevos registros ordinarios de asistencia. |
+| `RN-017` | Una sesión cancelada no genera registros de inasistencia ni ausencias. |
+| `RN-018` | El código numérico manual no reemplaza la verificación de identidad. |
+| `RN-019` | Ningún usuario puede consultar registros de otra ficha sin autorización explícita. |
+| `RN-020` | Al corregir un registro de asistencia, el sistema conserva el valor anterior y el nuevo en auditoría. |
+| `RN-021` | WebAuthn certifica el uso de una credencial segura del dispositivo. |
+| `RN-022` | Las bitácoras y registros de logs jamás almacenan imágenes ni plantillas biométricas crudas. |
+| `RN-023` | Las excusas y sus archivos adjuntos solo se consultan dentro del alcance autorizado del instructor y el aprendiz. |
+| `RN-024` | El umbral de tolerancia para marcar retardo es configurable por sesión. |
+| `RN-025` | No se emplean datos personales reales de terceros sin consentimiento previo. |
+| `RN-026` | La hora de inicio de una sesión o clase debe ser estrictamente anterior a la hora de fin. |
+| `RN-027` | El servidor bloquea solapamientos o cruces de horario para una misma ficha, instructor o ambiente. |
+| `RN-028` | Solo el Superadmin puede publicar y fijar novedades institucionales generales. |
+| `RN-029` | Las competencias y resultados de aprendizaje solo son consultables por aprendices e instructores vinculados a la ficha. |
 
 ---
 
-## 3. Catálogo de Requisitos Funcionales (`RF-BIO-001` a `RF-BIO-054`)
+## 3. Estructura de Requisitos Funcionales (`RF-SAB-001` a `RF-SAB-100`)
 
-| ID | Módulo | Descripción resumida | Prioridad |
-|---|---|---|---|
-| `RF-BIO-001` | Autenticación y acceso | Iniciar sesión con credenciales válidas y registrar último acceso. | Alta |
-| `RF-BIO-002` | Autenticación y acceso | Finalizar sesión e invalidar token/identificador. | Alta |
-| `RF-BIO-003` | Autenticación y acceso | Aplicar permisos por rol y alcance de ficha/sede (RBAC). | Alta |
-| `RF-BIO-004` | Autenticación y acceso | Restablecimiento seguro de credenciales sin revelar existencia de cuentas. | Media |
-| `RF-BIO-005` | Autenticación y acceso | Bloquear o limitar intentos fallidos de inicio de sesión de forma configurable. | Alta |
-| `RF-BIO-006` | Administración institucional | Crear, consultar y actualizar sedes institucionales. | Alta |
-| `RF-BIO-007` | Administración institucional | Crear y gestionar fichas vinculadas a una sede existente. | Alta |
-| `RF-BIO-008` | Administración institucional | Crear o desactivar cuentas de instructor y coordinador. | Alta |
-| `RF-BIO-009` | Administración institucional | Asignar o reasignar líderes de ficha con histórico de cambios en auditoría. | Alta |
-| `RF-BIO-010` | Administración institucional | Configurar parámetros de intentos máximos y caducidad de QR. | Media |
-| `RF-BIO-011` | Administración institucional | Consultar estado general de usuarios, grupos y sesiones mediante filtros. | Media |
-| `RF-BIO-012` | Gestión de aprendices | Permitir solo al instructor líder crear cuentas de aprendiz en una ficha a cargo. | Alta |
-| `RF-BIO-013` | Gestión de aprendices | Validar unicidad de documento e identificador de cuenta. | Alta |
-| `RF-BIO-014` | Gestión de aprendices | Actualizar datos básicos del aprendiz con permisos sin alterar historiales previos. | Alta |
-| `RF-BIO-015` | Gestión de aprendices | Consultar listado de aprendices y estado de vinculación por ficha asignada. | Alta |
-| `RF-BIO-016` | Gestión de aprendices | Desactivar o desvincular aprendices preservando trazabilidad e historial. | Media |
-| `RF-BIO-017` | Gestión de aprendices | Habilitar proceso controlado de enrolamiento de huella (previa autorización). | Alta |
-| `RF-BIO-018` | Sesiones de formación | Abrir sesión de asistencia para una ficha autorizada. | Alta |
-| `RF-BIO-019` | Sesiones de formación | Evitar sesiones superpuestas según política institucional de la ficha. | Alta |
-| `RF-BIO-020` | Sesiones de formación | Generar QR único vinculado a una sesión activa. | Alta |
-| `RF-BIO-021` | Sesiones de formación | Renovar QR automáticamente cada 15 segundos (parámetro configurable). | Alta |
-| `RF-BIO-022` | Sesiones de formación | Cerrar sesión con consolidación de resultados bloqueando nuevos registros ordinarios. | Alta |
-| `RF-BIO-023` | Sesiones de formación | Consultar sesiones propias por ficha, fecha y estado. | Alta |
-| `RF-BIO-024` | Verificación biométrica y QR | Solicitar cotejo de huella al proveedor biométrico compatible. | Alta |
-| `RF-BIO-025` | Verificación biométrica y QR | Habilitar etapa QR únicamente tras verificación biométrica exitosa. | Alta |
-| `RF-BIO-026` | Verificación biométrica y QR | Validar identidad de sesión, vencimiento y firma/aleatoriedad del QR. | Alta |
-| `RF-BIO-027` | Verificación biométrica y QR | Conceder ventana de 10 segundos para lectura QR tras habilitación biométrica. | Alta |
-| `RF-BIO-028` | Verificación biométrica y QR | Limitar a 3 intentos el proceso ordinario; al límite bloquear flujo y generar incidencia. | Alta |
-| `RF-BIO-029` | Verificación biométrica y QR | Registrar una única asistencia válida por aprendiz y sesión (evitar duplicados). | Alta |
-| `RF-BIO-030` | Verificación biométrica y QR | Mostrar resultado de validación y razón genérica de rechazo sin exponer biometría. | Alta |
-| `RF-BIO-031` | Incidencias y novedades | Crear incidencia ante fallas reiteradas o actividad sospechosa vinculada a sesión y aprendiz. | Alta |
-| `RF-BIO-032` | Incidencias y novedades | Notificar al instructor sobre nuevas incidencias de su sesión en tablero/buzón. | Alta |
-| `RF-BIO-033` | Incidencias y novedades | Permitir clasificación y resolución auditada de incidencias. | Alta |
-| `RF-BIO-034` | Incidencias y novedades | Registrar novedades operativas de sesión, lector o conectividad. | Media |
-| `RF-BIO-035` | Incidencias y novedades | Impedir que una incidencia rechazada se convierta automáticamente en asistencia válida. | Alta |
-| `RF-BIO-036` | Contingencia y control manual | Habilitar registro manual digital cuando el método regular no esté disponible (causa y responsable). | Alta |
-| `RF-BIO-037` | Contingencia y control manual | Distinguir en reportes los registros manuales de las verificaciones ordinarias. | Alta |
-| `RF-BIO-038` | Contingencia y control manual | Permitir cancelar clase registrando motivo y soporte adjunto. | Alta |
-| `RF-BIO-039` | Contingencia y control manual | Restringir modificaciones de asistencia a roles autorizados guardando valor anterior y nuevo en auditoría. | Alta |
-| `RF-BIO-040` | Excusas y soportes | Permitir al aprendiz enviar excusa asociada a fecha/sesión con texto y soporte. | Alta |
-| `RF-BIO-041` | Excusas y soportes | Validar formato, tamaño y acceso autorizado de archivos adjuntos. | Alta |
-| `RF-BIO-042` | Excusas y soportes | Permitir al instructor confirmar recepción de excusa actualizando fecha y responsable. | Alta |
-| `RF-BIO-043` | Excusas y soportes | Consultar estado e historial de excusas propias (sin acceso a terceros). | Media |
-| `RF-BIO-044` | Reportes y supervisión | Generar lista de asistencias, ausencias e incidencias por sesión con estado y origen. | Alta |
-| `RF-BIO-045` | Reportes y supervisión | Exportar reporte de cierre de sesión en formato PDF. | Alta |
-| `RF-BIO-046` | Reportes y supervisión | Exportar reporte de cierre de sesión en formato XLSX. | Alta |
-| `RF-BIO-047` | Reportes y supervisión | Filtrar estadísticas por sede, ficha, instructor y rango de fechas. | Media |
-| `RF-BIO-048` | Reportes y supervisión | Permitir al coordinador consultar registros globales según alcance autorizado. | Alta |
-| `RF-BIO-049` | Reportes y supervisión | Permitir al instructor consultar historial únicamente de sus fichas/sesiones. | Alta |
-| `RF-BIO-050` | Auditoría y privacidad | Registrar altas, reasignaciones, correcciones y cierres de sesión en bitácora. | Alta |
-| `RF-BIO-051` | Auditoría y privacidad | Registrar aceptación del aviso de tratamiento de datos antes del enrolamiento biométrico. | Alta |
-| `RF-BIO-052` | Auditoría y privacidad | Eliminar plantilla biométrica al finalizar programa según política aprobada. | Alta |
-| `RF-BIO-053` | Auditoría y privacidad | Evitar exposición de imágenes o plantillas de huella en reportes o logs. | Alta |
-| `RF-BIO-054` | Auditoría y privacidad | Permitir consulta filtrable de actividad relevante en bitácora por personal autorizado (solo lectura ordinaria). | Media |
+El catálogo oficial comprende 100 requisitos estructurados por áreas funcionales:
+
+- **Autenticación, acceso y seguridad (RF-SAB-001 a 005, 069):** Inicio de sesión por roles, cierre de sesión e invalidación de tokens, control de acceso basado en roles (RBAC), recuperación segura de contraseña por enlace de un solo uso de 15 min, bloqueo tras 5 intentos fallidos en 15 min.
+- **Administración institucional y académica (RF-SAB-006 a 011, 065 a 068, 085 a 088):** Gestión de sedes, fichas, ambientes, programas, asignación académica sin cruces de horario, reasignación de instructores líderes con bitácora, configuración de parámetros operativos.
+- **Gestión de aprendices y cuentas (RF-SAB-012 a 017, 095 a 097):** Registro de cuentas según rol, validación de ficha activa para aprendices, unicidad de documento y correo, enrolamiento con autorización legal, desvinculación conservando historial.
+- **Sesiones de clase y generación de códigos (RF-SAB-018 a 023, 055, 056, 071):** Apertura de sesión sin solapamiento, emisión de QR dinámico con rotación cada 15 s, emisión de código manual alternativo de 60 s, consulta de sesiones activas, cierre de sesión y bloqueo de marcas posteriores.
+- **Verificación de identidad y marcación de asistencia (RF-SAB-024 a 030, 057 a 060, 079, 080, 098 a 100):** Orden estricto (código previo a identidad), verificación facial o WebAuthn, ventana de 60 s, límite de 3 fallos con pase a incidencia, registro transaccional único por sesión (idempotencia), clasificación horaria puntual vs. retardo, guía visual de cámara sin distorsión.
+- **Incidencias, contingencias y control manual (RF-SAB-031 a 039, 062, 063, 076, 078):** Generación de incidencia automática tras fallos reiterados, alertas al instructor, resolución auditada, registro de contingencia manual con motivo y responsable, cancelación de clase con soporte sin ausencias.
+- **Excusas y justificaciones (RF-SAB-040 a 043, 073, 074, 081):** Envío de excusas por el aprendiz con soporte en PDF/JPG/PNG (límite 10 MB), confirmación de recepción por el instructor, resolución formal y notificación.
+- **Reportes, supervisión y auditoría (RF-SAB-044 a 054, 075, 082 a 084, 089 a 094):** Reporte de sesión con totales, exportación a PDF y XLSX, estadísticas filtrables por sede y fecha, bitácora de auditoría inmutable, supresión de datos al egreso conforme a ley, consulta de competencias y novedades.
 
 ---
 
-## 4. Requisitos No Funcionales clave (`RNF-BIO-001` a `RNF-BIO-024`)
+## 4. Requisitos No Funcionales Clave (`RNF-SAB-001` a `RNF-SAB-040`)
 
-- **Seguridad:** `RNF-BIO-001` (control de acceso en servidor), `RNF-BIO-002` (HTTPS/TLS en tránsito), `RNF-BIO-003` (contraseñas con derivación robusta y sal individual, no SHA-256 simple), `RNF-BIO-004` (minimización, cifrado y supresión de datos biométricos), `RNF-BIO-005` (bitácora inalterable), `RNF-BIO-006` (validación y restricción de adjuntos).
-- **Rendimiento y disponibilidad:** `RNF-BIO-007` (95 % de consultas simples ≤ 3 s), `RNF-BIO-008` (100 usuarios concurrentes en piloto), `RNF-BIO-009` (disponibilidad 99 % mensual), `RNF-BIO-010` (respaldos y restauración probada), `RNF-BIO-011` (reloj sincronizado en servidor para vigencia de QR).
-- **Usabilidad y accesibilidad:** `RNF-BIO-012` (responsivo en escritorio y móvil), `RNF-BIO-013` (mensajes claros de error), `RNF-BIO-014` (accesibilidad y contraste), `RNF-BIO-015` (minimizar pasos manuales en marcación).
-- **Mantenibilidad y escalabilidad:** `RNF-BIO-016` (modularidad: identidad, sesión, biometría, QR, reportes, auditoría), `RNF-BIO-017` (observabilidad con correlación sin datos sensibles), `RNF-BIO-018` (pruebas automatizadas de regresión), `RNF-BIO-019` (parámetros externos configurables).
-- **Privacidad y compatibilidad:** `RNF-BIO-020` (minimización de datos), `RNF-BIO-021` (retención y supresión), `RNF-BIO-022` (certificación de lector/SDK), `RNF-BIO-023` (consentimiento explícito Ley 1581 de 2012), `RNF-BIO-024` (contratos API versionados).
+- **Seguridad:** 100 % de rutas protegidas mediante RBAC (`RNF-SAB-001`), cifrado HTTPS/TLS 1.2+ (`RNF-SAB-002`), contraseñas hasheadas con Argon2id o bcrypt (`RNF-SAB-003`), expiración de sesión por inactividad de 30 min (`RNF-SAB-004`), cifrado en reposo y bitácora completa (`RNF-SAB-005` y `006`).
+- **Rendimiento:** Latencia percentil 95 $\le$ 3 s (`RNF-SAB-007`), capacidad de 100 usuarios concurrentes en prueba piloto (`RNF-SAB-008`), disponibilidad 99 % mensual (`RNF-SAB-009`), RPO 24 h y RTO 4 h (`RNF-SAB-010`), reloj sincronizado $\le$ 2 s (`RNF-SAB-011`).
+- **Usabilidad y accesibilidad:** Diseño responsive adaptado desde 320 px de ancho sin desplazamiento horizontal (`RNF-SAB-012`), mensajes claros de error con indicación del paso siguiente (`RNF-SAB-013`), WCAG 2.1 AA (`RNF-SAB-014`), marcación completable en $\le$ 30 s (`RNF-SAB-015`).
+- **Arquitectura y calidad:** Separación modular en 3 capas (`RNF-SAB-016`), trazabilidad de errores sin exponer secretos (`RNF-SAB-017`), política de retención de datos documentada (`RNF-SAB-021`), contratos API OpenAPI/REST (`RNF-SAB-024`), y garantía de cero duplicados por concurrencia (`RNF-SAB-025`).
+
+---
+
+## 5. Casos de Uso del Sistema (`CU-01` a `CU-30`)
+
+El modelo funcional formaliza 30 casos de uso:
+1. `CU-01` Iniciar sesión
+2. `CU-02` Administrar ficha y liderazgo
+3. `CU-03` Registrar aprendiz
+4. `CU-04` Enrolar identidad
+5. `CU-05` Abrir sesión
+6. `CU-06` Verificar identidad
+7. `CU-07` Validar QR o código
+8. `CU-08` Registrar asistencia
+9. `CU-09` Escalar incidencia
+10. `CU-10` Cerrar sesión y exportar
+11. `CU-11` Registrar asistencia manual
+12. `CU-12` Cancelar clase
+13. `CU-13` Enviar excusa
+14. `CU-14` Confirmar excusa
+15. `CU-15` Consultar reportes
+16. `CU-16` Reasignar líder
+17. `CU-17` Suprimir datos
+18. `CU-18` Consultar auditoría
+19. `CU-19` Consultar historial
+20. `CU-20` Contingencia de servicio
+21. `CU-21` Consultar panel e indicadores propios
+22. `CU-22` Consultar competencias y resultados
+23. `CU-23` Consultar notificaciones y novedades
+24. `CU-24` Gestionar instructores y ambientes
+25. `CU-25` Asignar y consultar horarios
+26. `CU-26` Gestionar novedades institucionales
+27. `CU-27` Consultar estados de validación
+28. `CU-28` Resolver excusa
+29. `CU-29` Consultar panel administrativo
+30. `CU-30` Crear cuenta por rol
