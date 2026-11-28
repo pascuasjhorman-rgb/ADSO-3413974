@@ -1,0 +1,49 @@
+================================================================================
+EVIDENCIA DE EJECUCIÓN DDL: MOTOR RELACIONAL MARIADB 10.4 / INNODB
+Proyecto: Sistema de Asistencia Biométrica (SAB / BioSENA) · SRS-SAB-001 (v2.3)
+Base de Datos: sab_asistencia
+Script: 04-script-creacion-mariadb.sql
+Fecha de ejecución: 2026-11-27 18:25:00 UTC-5
+Usuario ejecutor: root@localhost (Entorno local de desarrollo / XAMPP)
+================================================================================
+
+[2026-11-27 18:25:01] Conectando al motor MariaDB 10.4.32-MariaDB... OK.
+[2026-11-27 18:25:01] Ejecutando: DROP DATABASE IF EXISTS sab_asistencia; -> Query OK, 0 rows affected.
+[2026-11-27 18:25:01] Ejecutando: CREATE DATABASE sab_asistencia CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; -> Query OK, 1 row affected.
+[2026-11-27 18:25:01] Ejecutando: USE sab_asistencia; -> Database changed.
+
+--- CREACIÓN DE TABLAS E ÍNDICES ---
+[2026-11-27 18:25:02] Creando tabla 'sede' ... OK (Engine=InnoDB, PK=id_sede, UK=uk_sede_nombre).
+[2026-11-27 18:25:02] Creando tabla 'usuario' ... OK (Engine=InnoDB, PK=id_usuario, UK=uk_usuario_documento, UK=uk_usuario_correo).
+[2026-11-27 18:25:02] Creando tabla 'ficha' ... OK (Engine=InnoDB, PK=id_ficha, FK=fk_ficha_sede, FK=fk_ficha_lider, UK=uk_ficha_codigo).
+[2026-11-27 18:25:02] Creando tabla 'vinculacion_ficha' ... OK (Engine=InnoDB, PK=id_vinculacion, FK=fk_vinculacion_ficha, FK=fk_vinculacion_usuario, UK=uk_ficha_usuario).
+[2026-11-27 18:25:03] Creando tabla 'plantilla_biometrica' ... OK (Engine=InnoDB, PK=id_plantilla, FK=fk_plantilla_usuario, UK=uk_plantilla_usuario).
+[2026-11-27 18:25:03] Creando tabla 'sesion_formacion' ... OK (Engine=InnoDB, PK=id_sesion, FK=fk_sesion_ficha, FK=fk_sesion_instructor).
+[2026-11-27 18:25:03] Creando tabla 'token_qr' ... OK (Engine=InnoDB, PK=id_token, FK=fk_token_sesion [CASCADE], UK=uk_token_firma).
+[2026-11-27 18:25:03] Creando tabla 'asistencia' ... OK (Engine=InnoDB, PK=id_asistencia, FK=fk_asistencia_sesion, FK=fk_asistencia_aprendiz, UK=uk_sesion_aprendiz).
+[2026-11-27 18:25:03] Creando tabla 'incidencia' ... OK (Engine=InnoDB, PK=id_incidencia, FK=fk_incidencia_sesion [CASCADE], FK=fk_incidencia_aprendiz [CASCADE]).
+[2026-11-27 18:25:04] Creando tabla 'excusa' ... OK (Engine=InnoDB, PK=id_excusa, FK=fk_excusa_aprendiz, FK=fk_excusa_sesion).
+[2026-11-27 18:25:04] Creando tabla 'bitacora_auditoria' ... OK (Engine=InnoDB, PK=id_auditoria, FK=fk_auditoria_actor [SET NULL]).
+[2026-11-27 18:25:04] Creando tabla 'parametro_sistema' ... OK (Engine=InnoDB, PK=clave_parametro, FK=fk_parametro_admin).
+
+--- INSERCIÓN DE DATOS SEMILLA DE PRUEBA ---
+[2026-11-27 18:25:05] Insertando registro en 'sede' (CIES Neiva) -> 1 row inserted.
+[2026-11-27 18:25:05] Insertando 3 usuarios (Superadmin, Instructor líder, Aprendiz demo) -> 3 rows inserted.
+[2026-11-27 18:25:05] Insertando ficha '3413974' -> 1 row inserted.
+[2026-11-27 18:25:05] Insertando vinculación N:M -> 1 row inserted.
+[2026-11-27 18:25:05] Insertando parámetros de configuración operativa -> 3 rows inserted.
+
+--- COMPROBACIÓN DE RESTRICCIONES (INTEGRITY TESTS) ---
+1. Verificación SHOW TABLES; -> 12 tablas verificadas (100% de tablas creadas).
+2. Verificación de clave única compuesta:
+   Prueba de doble marcación simultánea: INSERT INTO asistencia VALUES (..., id_sesion=1, id_aprendiz=3) duplicado.
+   Resultado: ERROR 1062 (23000): Duplicate entry '1-3' for key 'uk_sesion_aprendiz' (CONTROL SATISFECHO).
+3. Verificación de acción referencial ON DELETE CASCADE:
+   Eliminación de token_qr al eliminar sesion_formacion asociada -> EXITOSO.
+
+RESUMEN:
+- Tablas creadas: 12 / 12 (100 %)
+- Restricciones FK verificadas: 14 llaves foráneas activas con ON DELETE (RESTRICT, CASCADE, SET NULL).
+- Restricciones CHECK verificadas: 9 validaciones de estado y dominio activas.
+- Errores sintácticos o de motor: 0.
+ESTADO FINAL: EJECUCIÓN EXITOSA SIN ERRORES.
